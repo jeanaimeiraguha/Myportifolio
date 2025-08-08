@@ -1,13 +1,43 @@
-# React + Vite
+# Portfolio Website with Contact Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a **personal portfolio website** built with **React.js** and **Tailwind CSS**, featuring an interactive contact form that sends messages using a **Node.js backend** powered by **Nodemailer**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Modern, responsive UI with Tailwind CSS
+- Smooth animations using Framer Motion
+- Navigation with React Router DOM
+- Contact form with real-time validation
+- Backend API with Express and Nodemailer to send emails
+- Environment variable support for sensitive credentials
+- CORS enabled for frontend-backend communication
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-"# Myportifolio" 
+---
+
+## Technologies Used
+
+- **Frontend:** React.js, Tailwind CSS, Framer Motion, React Icons, React Router DOM
+- **Backend:** Node.js, Express.js, Nodemailer, dotenv, CORS
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14+ recommended)
+- npm or yarn
+- A Gmail account or SMTP service for sending emails
+- App password if using Gmail with 2FA enabled
+
+---
+
+### Installation
+
+#### 1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/portfolio-contact.git
+cd portfolio-contact
