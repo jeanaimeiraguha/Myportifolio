@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 
 const education = [
@@ -10,6 +11,27 @@ const education = [
     year: "2019 - 2023",
     degree: "Bachelor of Computer Science",
     school: "University of Rwanda",
+  },
+  {
+    year: "2022 — Present",
+    degree: "Software Engineering and Embedded Systems",
+    school: "Gikonko Technical Secondary School",
+    description:
+      "Comprehensive training on programming languages, software methodologies, and practical coding skills to build robust software solutions.",
+  },
+  {
+    year: "2019 — 2022",
+    degree: "Ordinary Level Education (Sciences)",
+    school: "Ecole Secondaire Cyabingo",
+    description:
+      "Focused on sciences, strong foundation in math, physics, chemistry, biology, and deep spiritual values.",
+  },
+  {
+    year: "2013 — 2018",
+    degree: "Primary Education",
+    school: "Kibenga Primary School",
+    description:
+      "Developed core values and ethics applied throughout my personal and professional life.",
   },
 ];
 
@@ -26,7 +48,74 @@ const experience = [
     role: "Software Engineer",
     company: "Patie Digital Solution",
     description:
-      "Built full-stack web applications with React, Node.js, and Tailwind CSS.",
+      "Built full-stack web applications using React, Node.js, and Tailwind CSS.",
+  },
+  {
+    period: "2021 — 2023",
+    role: "Frontend Developer",
+    company: "Italos",
+    description:
+      "Created user interface components with React and Tailwind CSS, ensuring responsive and engaging user experiences.",
+  },
+  {
+    period: "2023",
+    role: "Mid-Level Smart Contract Engineer",
+    company: "Blockify",
+    description:
+      "Developed and tested scalable smart contracts using Solidity for decentralized applications.",
+  },
+  {
+    period: "2022 — Present",
+    role: "Project Leader",
+    company: "Various Projects",
+    description:
+      "Lead software development projects, coordinating teams and managing timelines to deliver quality solutions.",
+  },
+  {
+    period: "2018 — Present",
+    role: "Web Designer",
+    company: "Freelance",
+    description:
+      "Design intuitive and visually appealing websites by combining UX principles and frontend technologies.",
+  },
+];
+
+const certifications = [
+  {
+    title: "Transition to Web3 Bootcamp",
+    issuer: "Rise In",
+    description:
+      "Completed a 15-week community-driven bootcamp focusing on Web3 development projects.",
+  },
+  {
+    title: "Web3 and Blockchain Leadership For Transformation",
+    issuer: "Coursera",
+    description:
+      "Studied leadership and regulatory frameworks essential for blockchain and Web3 success.",
+  },
+  {
+    title: "Web3 Application Development",
+    issuer: "Metaschool",
+    description:
+      "Focused training on Web3 application and NFT development.",
+  },
+  {
+    title: "Hyperledger Fabric Chaincode Development Using GoLang",
+    issuer: "Udemy",
+    description:
+      "Completed comprehensive training on Hyperledger Fabric chaincode development.",
+  },
+  {
+    title: "Blockchain Specialization",
+    issuer: "Coursera",
+    description:
+      "Deep dive into blockchain technologies and practical applications.",
+  },
+  {
+    title: "Decentralized Apps",
+    issuer: "Coursera",
+    description:
+      "Comprehensive study of decentralized applications built on blockchain.",
   },
 ];
 
@@ -43,69 +132,108 @@ const skills = [
 
 export default function Resume() {
   return (
-    <section className="py-20 bg-gray-50 text-gray-900 px-6 min-h-screen">
-      <div className="container mx-auto max-w-4xl">
-        <motion.h2
-          className="text-4xl font-bold mb-12 text-center"
+    <section className="py-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white px-6 min-h-screen">
+      <div className="container mx-auto max-w-5xl">
+        <motion.h1
+          className="text-5xl font-extrabold mb-16 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
           Resume
-        </motion.h2>
+        </motion.h1>
 
         {/* Education */}
-        <motion.div
-          className="mb-12"
+        <motion.section
+          className="mb-16"
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h3 className="text-2xl font-semibold mb-6 border-b-2 border-indigo-600 pb-2">
+          <h2 className="text-3xl font-semibold mb-8 border-b-2 border-indigo-400 inline-block pb-1">
             Education
-          </h3>
-          <ul className="space-y-6">
-            {education.map(({ year, degree, school }) => (
-              <li key={year} className="pl-4 border-l-4 border-indigo-600">
-                <p className="text-indigo-600 font-semibold">{year}</p>
-                <p className="text-lg font-semibold">{degree}</p>
-                <p className="italic text-gray-700">{school}</p>
-              </li>
+          </h2>
+          <div className="space-y-8">
+            {education.map(({ year, degree, school, description }) => (
+              <div
+                key={year + school}
+                className="bg-gray-800 p-6 rounded-lg shadow-md"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xl font-bold text-white">{degree}</h3>
+                  <span className="text-indigo-400 font-semibold">{year}</span>
+                </div>
+                <p className="italic text-indigo-300 mb-1">{school}</p>
+                {description && (
+                  <p className="text-indigo-200">{description}</p>
+                )}
+              </div>
             ))}
-          </ul>
-        </motion.div>
+          </div>
+        </motion.section>
 
         {/* Experience */}
-        <motion.div
-          className="mb-12"
+        <motion.section
+          className="mb-16"
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <h3 className="text-2xl font-semibold mb-6 border-b-2 border-indigo-600 pb-2">
+          <h2 className="text-3xl font-semibold mb-8 border-b-2 border-indigo-400 inline-block pb-1">
             Experience
-          </h3>
-          <ul className="space-y-6">
+          </h2>
+          <div className="space-y-8">
             {experience.map(({ period, role, company, description }) => (
-              <li key={company + period} className="pl-4 border-l-4 border-indigo-600">
-                <p className="text-indigo-600 font-semibold">{period}</p>
-                <p className="text-lg font-semibold">{role}</p>
-                <p className="italic text-indigo-700 mb-2">{company}</p>
-                <p className="text-gray-700">{description}</p>
-              </li>
+              <div
+                key={role + company}
+                className="bg-gray-800 p-6 rounded-lg shadow-md"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xl font-bold text-white">{role}</h3>
+                  <span className="text-indigo-400 font-semibold">{period}</span>
+                </div>
+                <p className="italic text-indigo-300 mb-1">{company}</p>
+                <p className="text-indigo-200">{description}</p>
+              </div>
             ))}
-          </ul>
-        </motion.div>
+          </div>
+        </motion.section>
 
-        {/* Skills */}
-        <motion.div
+        {/* Certifications */}
+        <motion.section
+          className="mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <h3 className="text-2xl font-semibold mb-6 border-b-2 border-indigo-600 pb-2">
+          <h2 className="text-3xl font-semibold mb-8 border-b-2 border-indigo-400 inline-block pb-1">
+            Certifications
+          </h2>
+          <div className="space-y-8">
+            {certifications.map(({ title, issuer, description }) => (
+              <div
+                key={title}
+                className="bg-gray-800 p-6 rounded-lg shadow-md"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xl font-bold text-white">{title}</h3>
+                  <span className="text-indigo-400 font-semibold">{issuer}</span>
+                </div>
+                <p className="text-indigo-200">{description}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Skills */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+        >
+          <h2 className="text-3xl font-semibold mb-8 border-b-2 border-indigo-400 inline-block pb-1">
             Skills
-          </h3>
+          </h2>
           <div className="flex flex-wrap gap-4">
             {skills.map((skill) => (
               <span
@@ -116,7 +244,7 @@ export default function Resume() {
               </span>
             ))}
           </div>
-        </motion.div>
+        </motion.section>
       </div>
     </section>
   );

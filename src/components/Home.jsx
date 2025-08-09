@@ -21,13 +21,13 @@ export default function Home() {
     if (!deleting && displayedText.length < currentRole.length) {
       timeout = setTimeout(() => {
         setDisplayedText(currentRole.slice(0, displayedText.length + 1));
-      }, 150);
+      }, 120);
     } else if (deleting && displayedText.length > 0) {
       timeout = setTimeout(() => {
         setDisplayedText(currentRole.slice(0, displayedText.length - 1));
-      }, 100);
+      }, 80);
     } else if (!deleting && displayedText.length === currentRole.length) {
-      timeout = setTimeout(() => setDeleting(true), 2000);
+      timeout = setTimeout(() => setDeleting(true), 2500);
     } else if (deleting && displayedText.length === 0) {
       setDeleting(false);
       setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
@@ -44,12 +44,21 @@ export default function Home() {
         transition={{ duration: 1 }}
         className="max-w-3xl text-center"
       >
-        <h1 className="text-5xl font-bold mb-4">Hi, I'm Iraguha Jean Aime</h1>
+        <h1 className="text-5xl font-bold mb-4">
+          Hi, I'm Iraguha Jean Aime
+        </h1>
         <p className="text-2xl min-h-[40px] text-indigo-400 font-mono tracking-wide mb-8">
           {displayedText}
           <span className="animate-pulse">|</span>
         </p>
-        <div className="flex justify-center gap-8 text-4xl">
+
+        <motion.div
+          className="flex justify-center gap-8 text-4xl mb-12"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          whileHover={{ scale: 1.1 }}
+        >
           <a
             href="https://github.com/jeanaimeiraguha"
             target="_blank"
@@ -84,7 +93,31 @@ export default function Home() {
               Email
             </span>
           </a>
-        </div>
+        </motion.div>
+
+        <motion.div
+          className="text-indigo-400 cursor-pointer select-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 1 }}
+          whileHover={{ scale: 1.05, color: "#8b5cf6" }}
+          onClick={() =>
+            alert(
+              "Thanks for visiting! Feel free to explore my projects and get in touch."
+            )
+          }
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              alert(
+                "Thanks for visiting! Feel free to explore my projects and get in touch."
+              );
+            }
+          }}
+        >
+          👋 Click here to say hi!
+        </motion.div>
       </motion.div>
     </section>
   );
