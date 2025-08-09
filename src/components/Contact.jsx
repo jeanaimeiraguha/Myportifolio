@@ -6,6 +6,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const validate = () => {
     const errs = {};
@@ -21,16 +22,36 @@ export default function Contact() {
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setSubmitted(false);  // Reset submission message if user edits form
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-      // Here you can handle sending form data to your backend or email service
-      setSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
+      setLoading(true);
       setErrors({});
+      try {
+        const response = await fetch("http://localhost:5000/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setSubmitted(true);
+          setFormData({ name: "", email: "", message: "" });
+        } else {
+          alert(data.message || "Failed to send message");
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+        alert("Something went wrong. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     } else {
       setErrors(validationErrors);
       setSubmitted(false);
@@ -59,12 +80,12 @@ export default function Contact() {
           >
             <div className="flex items-center gap-4">
               <FaMapMarkerAlt className="text-indigo-500 text-2xl" />
-              <p>Bugesera , Kigali, Rwanda</p>
+              <p>Bugesera, Kigali, Rwanda</p>
             </div>
             <div className="flex items-center gap-4">
               <FaPhoneAlt className="text-indigo-500 text-2xl" />
-              <a href="tel:+250791059171" className="hover:text-indigo-400">
-                +250 791 059 171
+              <a href="tel:+250793411594" className="hover:text-indigo-400">
+                +250 793 41 1594
               </a>
             </div>
             <div className="flex items-center gap-4">
@@ -146,14 +167,17 @@ export default function Contact() {
 
             <button
               type="submit"
-              className="bg-indigo-600 hover:bg-indigo-700 transition px-6 py-3 rounded font-semibold w-full"
+              disabled={loading}
+              className={`bg-indigo-600 hover:bg-indigo-700 transition px-6 py-3 rounded font-semibold w-full ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
 
             {submitted && (
               <p className="mt-4 text-green-400 font-semibold text-center">
-                Thank you for your message! I will get back to you soon.
+                ✅ Thank you for your message! I will get back to you soon.
               </p>
             )}
           </motion.form>
