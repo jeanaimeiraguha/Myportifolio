@@ -59,7 +59,7 @@ export default function Contact() {
           >
             <div className="flex items-center gap-4">
               <FaMapMarkerAlt className="text-indigo-500 text-2xl" />
-              <p>Kigali, Rwanda</p>
+              <p>Bugesera , Kigali, Rwanda</p>
             </div>
             <div className="flex items-center gap-4">
               <FaPhoneAlt className="text-indigo-500 text-2xl" />
