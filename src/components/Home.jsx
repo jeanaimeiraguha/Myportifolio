@@ -25,28 +25,25 @@ function StarryBackground() {
       return Math.random() * (max - min) + min;
     }
 
-    // Initialize stars
     for (let i = 0; i < numStars; i++) {
       stars.push({
         x: Math.random() * width,
         y: Math.random() * height,
         radius: randomRange(0.3, 1.2),
         alpha: randomRange(0.1, 1),
-        delta: randomRange(0.002, 0.01), // twinkle speed
+        delta: randomRange(0.002, 0.01),
       });
     }
 
     function draw() {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw gradient background
       const gradient = ctx.createLinearGradient(0, 0, 0, height);
-      gradient.addColorStop(0, "#0d1b2a"); // dark blue
-      gradient.addColorStop(1, "#1b263b"); // slightly lighter blue
+      gradient.addColorStop(0, "#0d1b2a");
+      gradient.addColorStop(1, "#1b263b");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
 
-      // Draw stars with twinkle effect
       stars.forEach((star) => {
         star.alpha += star.delta;
         if (star.alpha <= 0 || star.alpha >= 1) star.delta = -star.delta;
@@ -85,38 +82,113 @@ export default function Home() {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [speechPlayed, setSpeechPlayed] = useState(false);
+  const [voices, setVoices] = useState([]);
 
+  // Load available voices
   useEffect(() => {
-    if ("speechSynthesis" in window) {
-      const voices = window.speechSynthesis.getVoices();
-
-      const findVoice = (langPrefix) =>
-        voices.find(
-          (v) =>
-            v.lang.toLowerCase().startsWith(langPrefix) &&
-            v.name.toLowerCase().includes("google")
-        ) || voices.find((v) => v.lang.toLowerCase().startsWith(langPrefix));
-
-      const utteranceEn = new SpeechSynthesisUtterance(
-        "Hello, I am Iraguha Jean Aime. Welcome to my site."
-      );
-      utteranceEn.voice = findVoice("en") || null;
-      utteranceEn.lang = "en-US";
-
-      const utteranceRw = new SpeechSynthesisUtterance(
-        "Muraho neza, nitwa Iraguha Jean Aime. Murakaza neza kuri urubuga rwanjye."
-      );
-      utteranceRw.voice = findVoice("rw") || findVoice("fr") || null;
-      utteranceRw.lang = "rw-RW";
-
-      utteranceEn.onend = () => {
-        window.speechSynthesis.speak(utteranceRw);
-      };
-
-      window.speechSynthesis.speak(utteranceEn);
+    function loadVoices() {
+      const available = window.speechSynthesis.getVoices();
+      if (available.length) setVoices(available);
     }
+    loadVoices();
+    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    return () => {
+      window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
+    };
   }, []);
 
+  // Helper: find voice by language prefix, prefer Google voices
+  const getVoice = (langPrefix) =>
+    voices.find(
+      (v) =>
+        v.lang.toLowerCase().startsWith(langPrefix) &&
+        v.name.toLowerCase().includes("google")
+    ) || voices.find((v) => v.lang.toLowerCase().startsWith(langPrefix));
+
+  // Speak professional intro in English and Kinyarwanda (with voice preference)
+  const speakMessages = () => {
+    if (!("speechSynthesis" in window)) return false;
+
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+    }
+
+    // English utterances
+    const greetingEn = new SpeechSynthesisUtterance(
+      "Hey there, I am Jean Aime Iraguha, an Ethical Software Engineer and Full-Stack Developer based in Rwanda."
+    );
+    greetingEn.lang = "en-US";
+    greetingEn.voice = getVoice("en");
+
+    const detailsEn = new SpeechSynthesisUtterance(
+      "I specialize in building reliable and secure web applications, data science solutions, and blockchain projects."
+    );
+    detailsEn.lang = "en-US";
+    detailsEn.voice = greetingEn.voice;
+
+    const inviteEn = new SpeechSynthesisUtterance(
+      "Feel free to explore my portfolio, check out my projects, and contact me anytime. I look forward to collaborating with you and helping your business grow."
+    );
+    inviteEn.lang = "en-US";
+    inviteEn.voice = greetingEn.voice;
+
+    // Kinyarwanda utterances
+    const greetingRw = new SpeechSynthesisUtterance(
+      "Muraho neza, nitwa Jean Aime Iraguha, ndi umukozi w'ikoranabuhanga wubahiriza amahame y'umwuga kandi nkora mu bikorwa byo gukora porogaramu zose zihuza."
+    );
+    greetingRw.lang = "rw-RW";
+    greetingRw.voice = getVoice("rw") || getVoice("fr") || getVoice("en") || null;
+
+    const detailsRw = new SpeechSynthesisUtterance(
+      "N specialize mu gukora porogaramu zizewe kandi zifite umutekano, ibisubizo by'ubumenyi bw'ibipimo bya data, ndetse na porogaramu za blockchain."
+    );
+    detailsRw.lang = "rw-RW";
+    detailsRw.voice = greetingRw.voice;
+
+    const inviteRw = new SpeechSynthesisUtterance(
+      "Murisanga gusura portfolio yanjye, kureba imishinga yanjye no kunsobanurira igihe cyose. Ntegereje gukorana namwe no gufasha ubucuruzi bwanyu gutera imbere."
+    );
+    inviteRw.lang = "rw-RW";
+    inviteRw.voice = greetingRw.voice;
+
+    // Chain the speech synthesis utterances
+    greetingEn.onend = () => window.speechSynthesis.speak(detailsEn);
+    detailsEn.onend = () => window.speechSynthesis.speak(inviteEn);
+    inviteEn.onend = () => window.speechSynthesis.speak(greetingRw);
+    greetingRw.onend = () => window.speechSynthesis.speak(detailsRw);
+    detailsRw.onend = () => window.speechSynthesis.speak(inviteRw);
+
+    try {
+      window.speechSynthesis.speak(greetingEn);
+      setSpeechPlayed(true);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  // Attempt to autoplay speech on voices loaded
+  useEffect(() => {
+    if (voices.length === 0) return;
+    const played = speakMessages();
+    if (!played) {
+      setSpeechPlayed(false); // show tap-to-speak button on blocked autoplay
+    }
+  }, [voices]);
+
+  // Replay speech on tab focus if played once
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible" && speechPlayed) {
+        speakMessages();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, [speechPlayed, voices]);
+
+  // Animated typing effect for roles
   useEffect(() => {
     const currentRole = roles[currentRoleIndex];
     let timeout;
@@ -176,7 +248,7 @@ export default function Home() {
         <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
           Hi, I&apos;m{" "}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 animate-gradient-x">
-            Iraguha Jean Aime
+            Jean Aime IRAGUHA
           </span>
         </h1>
 
@@ -200,6 +272,19 @@ export default function Home() {
             aria-hidden="true"
           />
         </div>
+
+        {/* Show tap button if autoplay blocked */}
+        {!speechPlayed && (
+          <motion.button
+            onClick={() => speakMessages()}
+            className="mb-8 px-10 py-4 rounded-full text-lg font-semibold bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 shadow-lg hover:shadow-xl transition-shadow duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-500"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Tap to hear voice"
+          >
+            🔊 Tap to hear my voice
+          </motion.button>
+        )}
 
         {/* Social Icons */}
         <motion.div
@@ -229,7 +314,7 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Call to Action Button */}
+        {/* Say Hi Button */}
         <motion.button
           onClick={() =>
             alert(
