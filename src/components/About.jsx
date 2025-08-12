@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaBriefcase, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
+import { FaBriefcase, FaQuoteLeft, FaQuoteRight, FaHandsHelping, FaUsers } from "react-icons/fa";
 
 const skills = [
   { name: "JavaScript", level: 90 },
@@ -34,7 +34,6 @@ const socialLinks = [
   { name: "Twitter", url: "#", icon: "🐦" },
 ];
 
-// Experience data
 const experiences = [
   {
     role: "Backend Developer Intern",
@@ -58,7 +57,6 @@ const experiences = [
   },
 ];
 
-// Testimonials data (15 people)
 const testimonials = [
   { id: 1, name: "Alice Mwizerwa", role: "Project Manager", quote: "Iraguha is an outstanding developer. His attention to detail and commitment made our project a success." },
   { id: 2, name: "James Kagabo", role: "Team Lead", quote: "A very professional engineer who always delivers on time with high-quality code." },
@@ -89,7 +87,6 @@ function Footer() {
 export default function About() {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
 
-  // Auto-scroll testimonials every 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setTestimonialIndex((i) => (i === testimonials.length - 1 ? 0 : i + 1));
@@ -160,12 +157,36 @@ export default function About() {
           </motion.p>
         </article>
 
+        {/* Community & Social Impact */}
+        <motion.section
+          className="max-w-4xl mx-auto mt-16 mb-20 p-8 bg-indigo-900 bg-opacity-70 rounded-lg shadow-lg"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+          aria-label="Community and social impact section"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-indigo-200 flex items-center gap-3 justify-center">
+            <FaHandsHelping className="text-indigo-400" />
+            Community & Social Impact
+          </h2>
+          <p className="text-indigo-100 max-w-3xl mx-auto text-center text-lg leading-relaxed">
+            Beyond coding, I actively contribute to empowering my community through:
+          </p>
+          <ul className="list-disc list-inside space-y-3 mt-4 max-w-3xl mx-auto text-indigo-200 text-center">
+            <li>Mentoring young aspiring developers to build their skills and confidence.</li>
+            <li>Organizing local coding workshops and tech meetups to share knowledge and inspire innovation.</li>
+            <li>Contributing to open source projects that promote accessibility and education.</li>
+            <li>Volunteering in initiatives that improve digital literacy and bridge the technology gap.</li>
+            <li>Advocating ethical technology use and sustainable development in software projects.</li>
+          </ul>
+        </motion.section>
+
         {/* Stats */}
         <motion.section
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 mb-20 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1 }}
+          transition={{ delay: 1.4 }}
         >
           {stats.map(({ label, value }) => (
             <div
@@ -183,7 +204,7 @@ export default function About() {
           className="max-w-4xl mx-auto mb-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3 }}
+          transition={{ delay: 1.6 }}
         >
           <h2 className="text-3xl font-semibold mb-8 text-indigo-400 text-center">
             Technical Skills
@@ -213,7 +234,7 @@ export default function About() {
           className="max-w-4xl mx-auto mb-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5 }}
+          transition={{ delay: 1.8 }}
         >
           <h2 className="text-3xl font-bold mb-6 text-indigo-400 text-center">
             What Drives Me
@@ -302,7 +323,7 @@ export default function About() {
           className="max-w-4xl mx-auto mb-20 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.7 }}
+          transition={{ delay: 2 }}
         >
           <h2 className="text-3xl font-bold mb-6 text-indigo-400">Connect With Me</h2>
           <div className="flex justify-center gap-8 text-3xl">
