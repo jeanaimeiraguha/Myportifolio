@@ -133,12 +133,12 @@ export default function Home() {
     inviteEn.lang = "en-US";
     inviteEn.voice = greetingEn.voice;
 
-    // Kinyarwanda utterances
-    const greetingRw = new SpeechSynthesisUtterance(
-      "Muraho neza, nitwa Jean Aime Iraguha, ndi umukozi w'ikoranabuhanga wubahiriza amahame y'umwuga kandi nkora mu bikorwa byo gukora porogaramu zose zihuza."
-    );
-    greetingRw.lang = "rw-RW";
-    greetingRw.voice = getVoice("rw") || getVoice("fr") || getVoice("en") || null;
+    // // Kinyarwanda utterances
+    // const greetingRw = new SpeechSynthesisUtterance(
+    //   "Muraho neza, nitwa Jean Aime Iraguha, ndi umukozi w'ikoranabuhanga wubahiriza amahame y'umwuga kandi nkora mu bikorwa byo gukora porogaramu zose zihuza."
+    // );
+    // greetingRw.lang = "rw-RW";
+    // greetingRw.voice = getVoice("rw") || getVoice("fr") || getVoice("en") || null;
 
     const detailsRw = new SpeechSynthesisUtterance(
       "N specialize mu gukora porogaramu zizewe kandi zifite umutekano, ibisubizo by'ubumenyi bw'ibipimo bya data, ndetse na porogaramu za blockchain."
