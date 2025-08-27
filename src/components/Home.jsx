@@ -2,14 +2,18 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
+// Expanded roles list
 const roles = [
   "Full-Stack Developer",
   "Data Scientist",
+  "Machine Learning Engineer",
+  "AI Software Engineer",
   "Blockchain Enthusiast",
+  "Smart Contract Engineer",
   "Ethical Software Engineer",
+  "Graphic Designer",
 ];
 
-// Interactive Starry Background with parallax and connecting lines
 function StarryInteractiveBackground() {
   const canvasRef = useRef(null);
   const mouse = useRef({ x: null, y: null });
@@ -40,16 +44,10 @@ function StarryInteractiveBackground() {
     function draw() {
       ctx.clearRect(0, 0, width, height);
 
-      // Background gradient with animated hue rotation
-      const gradient = ctx.createLinearGradient(0, 0, width, height);
-      const time = Date.now() * 0.0005;
-      gradient.addColorStop(0, `hsl(${Math.sin(time) * 360}, 30%, 10%)`);
-      gradient.addColorStop(0.5, `hsl(${Math.sin(time + 1) * 360}, 40%, 15%)`);
-      gradient.addColorStop(1, `hsl(${Math.sin(time + 2) * 360}, 50%, 20%)`);
-      ctx.fillStyle = gradient;
+      // Single deep blue background
+      ctx.fillStyle = "#0d1b2a"; // deep navy blue
       ctx.fillRect(0, 0, width, height);
 
-      // Draw stars
       stars.forEach((star) => {
         star.alpha += star.delta;
         if (star.alpha <= 0 || star.alpha >= 1) star.delta = -star.delta;
@@ -65,7 +63,7 @@ function StarryInteractiveBackground() {
         ctx.fill();
       });
 
-      // Connect nearby stars with lines
+      // Connect stars
       for (let i = 0; i < numStars; i++) {
         for (let j = i + 1; j < numStars; j++) {
           const dx = stars[i].x - stars[j].x;
@@ -73,7 +71,7 @@ function StarryInteractiveBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(200,200,255,${1 - dist / 120})`;
+            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / 120})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(stars[i].x, stars[i].y);
             ctx.lineTo(stars[j].x, stars[j].y);
@@ -115,7 +113,6 @@ export default function Home() {
   const [speechPlayed, setSpeechPlayed] = useState(false);
   const [voices, setVoices] = useState([]);
 
-  // Load voices
   useEffect(() => {
     function loadVoices() {
       const available = window.speechSynthesis.getVoices();
@@ -171,7 +168,7 @@ export default function Home() {
     return () => window.removeEventListener("load", onLoad);
   }, [voices]);
 
-  // Animated typing for roles
+  // Typing animation
   useEffect(() => {
     const currentRole = roles[currentRoleIndex];
     let timeout;
@@ -203,7 +200,7 @@ export default function Home() {
       <motion.div className="max-w-5xl text-center relative z-10" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
         <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
           Hi, I&apos;m{" "}
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 animate-gradient-x">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-pink-500">
             Jean Aime IRAGUHA
           </span>
         </h1>
@@ -238,17 +235,6 @@ export default function Home() {
           👋 Say Hi!
         </motion.button>
       </motion.div>
-
-      <style>{`
-        @keyframes gradient-x {
-          0%, 100% { background-position: 0% center; }
-          50% { background-position: 100% center; }
-        }
-        .animate-gradient-x {
-          background-size: 200% auto;
-          animation: gradient-x 3s linear infinite;
-        }
-      `}</style>
     </section>
   );
 }
